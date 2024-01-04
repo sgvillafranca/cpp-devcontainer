@@ -15,6 +15,7 @@ COPY conf/custom.zsh-theme /home/vscode/.oh-my-zsh/custom/themes
 # Install Dependencies
 RUN sh scripts/install-cookiecutter.sh
 RUN sh scripts/install-catch2.sh
+RUN sh scripts/install-git-lfs.sh
 RUN sudo sh scripts/install-gcc10.sh
 
 # Avoid warnings by switching to noninteractive
