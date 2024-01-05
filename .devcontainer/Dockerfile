@@ -15,11 +15,17 @@ COPY conf/custom.zsh-theme /home/vscode/.oh-my-zsh/custom/themes
 # Avoid warnings by switching to noninteractive
 RUN export DEBIAN_FRONTEND=noninteractive && sudo apt-get update -qq && sudo apt-get upgrade -y -qq
 
-# Install Dependencies
-RUN sh scripts/install-cookiecutter.sh
-RUN sh scripts/install-catch2.sh
-RUN sudo sh scripts/install-git-lfs.sh
-RUN sudo sh scripts/install-gcc10.sh
+# Install Dependencies:
+# Cookiecutter
+RUN sudo apt-get update \
+    && sudo apt-get -y install python3-pip && cmake && pip3 install cookiecutter
+# Catch2
+RUN git clone https://github.com/catchorg/Catch2  \
+&& cd Catch2 \
+&& mkdir build && cd build && cmake .. \ 
+&& make && sudo make install && cd .. && cd .. && rm -r Catch2
+# GCC10
+RUN sudo apt-get install -y -qq gcc-10 g++-10
 
 # Configure zsh commantd prompt and set as default
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/vscode/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
